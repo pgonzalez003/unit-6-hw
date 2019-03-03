@@ -1,14 +1,32 @@
-$(".btn-primary").on("click", function () {
-    event.preventDefault();
-    var gifSearch = $(".form-control").val().trim();
-    console.log(gifSearch);
-    var gifResult = $("<button type=\"button\">");
-    console.log(gifResult)
-    gifResult.addClass("btn-outline-danger");
-    gifResult.text(gifSearch);
-    console.log(gifResult.text(gifSearch));
-    $("#button-landing").append(gifResult);
+var searchTerm = [Dog, Cat, Marcus Camby]
 
+function displayGifButtons() {
+	$("#button-landing").empty();
+	for (var i = 0; i < searchTerm.length; i++) {
+		var gifButton = $("<button>");
+		gifButton.addClass("gif");
+		gifButton.addClass("btn-outline-danger")
+		gifButton.attr("data-name", searchTerm[i]);
+		gifButton.text(searchTerm[i]);
+		$("#gifButtonsView").append(gifButton);
+	}
+}
+
+function addNewButton() {
+	$("#btn-primary").on("click", function() {
+		var gifSearch = $(".form-control").val().trim();
+		if (gifSearch == ""){
+			return false;
+		}
+		searchTerm.push(gifSearch);
+
+		displayGifButtons();
+		return false;
+		});
+}
+
+function displayGif() {
+    var gifSearch = $(this).attr("data-name");
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifSearch + "&api_key=F5EgmXa0GAhqXq0K4HpPhz0Afv5OBZg1&limit=10";
 
     $.ajax({
@@ -41,7 +59,7 @@ $(".btn-primary").on("click", function () {
         })
 
 
-});
+};
 
 function gifPause(img) {
     console.log(img);
@@ -56,3 +74,16 @@ function gifPause(img) {
         $(img).attr("data-state", "still");
     };
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
