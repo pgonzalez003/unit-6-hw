@@ -3,13 +3,23 @@ $(".btn-primary").on("click", function () {
     var gifSearch = $(".form-control").val().trim();
     console.log(gifSearch);
     var gifResult = $("<button type=\"button\">");
-    console.log(gifResult)
+    console.log(gifResult);
+    gifResult.attr("data-gif", gifSearch);
     gifResult.addClass("btn-outline-danger");
+    // gifResult.attr("id", "clickMe");
     gifResult.text(gifSearch);
     console.log(gifResult.text(gifSearch));
     $("#button-landing").append(gifResult);
 
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifSearch + "&api_key=F5EgmXa0GAhqXq0K4HpPhz0Afv5OBZg1&limit=10";
+});
+
+
+
+$(document).on("click", ".btn-outline-danger", function() {
+   var searchMe = $(this).attr("data-gif");
+    console.log($(this).attr("data-gif"));
+    
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchMe + "&api_key=F5EgmXa0GAhqXq0K4HpPhz0Afv5OBZg1&limit=10";
 
     $.ajax({
         url: queryURL,
@@ -23,6 +33,8 @@ $(".btn-primary").on("click", function () {
             for (var i = 0; i < results.length; i++) {
                 const animate = results[i].images.fixed_height_small.url;
                 var gifDiv = $("<div>");
+                // var gifRow = $("<div class=\'row\'>");
+                // var gifCol = $("<div class=\'col-lg-12\'>");
                 var p = $("<p>").text("Rating:  " + results[i].rating);
 
                 var gifImage = $("<img>");
@@ -33,15 +45,26 @@ $(".btn-primary").on("click", function () {
                 gifImage.attr("data-still", results[i].images.fixed_height_small_still.url);
                 gifImage.attr("data-animate", animate);
 
+                
+
+                // gifDiv.addClass("gifLayout");
+
                 gifDiv.append(p);
                 gifDiv.append(gifImage);
+                
 
-                $("#landing").append(gifDiv);
+                // gifRow.append(gifCol);
+                // gifCol.append(gifDiv);
+
+                $("#landing").append(gifRow);
             }
         })
 
+})
+    
 
-});
+
+
 
 function gifPause(img) {
     console.log(img);
